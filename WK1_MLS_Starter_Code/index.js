@@ -1,7 +1,7 @@
 const posts = [
   {
     id: 1,
-    author: "Ananya Gupta",
+    author: "Annanya Gupta",
     role: "Engineer",
     content: "Refactored a legacy component today. Small wins matter.",
     likes: 18,
