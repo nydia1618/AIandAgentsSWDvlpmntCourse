@@ -3,6 +3,17 @@
 // Exercise 1: Comment-Driven Development
 // Function to calculate the factorial of a number and print it to the console
 function factorial(n) {
+    // Input validation
+    if (typeof n !== 'number' || isNaN(n)) {
+        throw new TypeError("Input must be a number");
+    }
+    if (n < 0) {
+        throw new RangeError("Input must be a non-negative number");
+    }
+    if (!Number.isInteger(n)) {
+        throw new Error("Input must be an integer");
+    }
+
     // Base case: if n is 0 or 1, return 1
     if (n === 0 || n === 1) {
         return 1;
@@ -10,7 +21,11 @@ function factorial(n) {
     // Recursive case: n! = n * (n - 1)!
     return n * factorial(n - 1);
 }   
-console.log("Factorial of 5:", factorial(5)); // Should print 120   
+try {
+    console.log("Factorial of 5:", factorial(5)); // Should print 120
+} catch (error) {
+    console.error("Error calculating factorial:", error.message);
+}
 
 // Exercise 2: Array Operations
 const mynumberlists = [1, 2, 3, 4, 5];
@@ -19,23 +34,26 @@ const mynumberlists = [1, 2, 3, 4, 5];
 const evenNumbers = mynumberlists.filter(num => num % 2 === 0);
 console.log("Even Numbers:", evenNumbers);
 
-
-
 // Exercise 3: Function from Signature
-// Type this on a new line and press Enter:
-// function reverseString(str)
-
-//Excercise 3: Function from Signature
 function reverseString(str) {
+    // Input validation
+    if (typeof str !== 'string') {
+        throw new TypeError("Input must be a string");
+    }
+
     // Split the string into an array of characters, reverse the array, and join it back into a string
     return str.split('').reverse().join('');
 }
 
 // Example usage:
-const originalString = "Hello, World!";
-const reversedString = reverseString(originalString);
-console.log("Original String:", originalString);
-console.log("Reversed String:", reversedString);    
+try {
+    const originalString = "Hello, World!";
+    const reversedString = reverseString(originalString);
+    console.log("Original String:", originalString);
+    console.log("Reversed String:", reversedString);    
+} catch (error) {
+    console.error("Error reversing string:", error.message);
+}
 
 // Exercise 4: Process User Data 
 /**
@@ -61,11 +79,24 @@ console.log("Reversed String:", reversedString);
  * // Returns: [{ name: 'John', email: 'john@example.com' }]
  */
 function processUserData(users) {
-    return users
-        .filter(user => user.age >= 18)
-        .map(user => ({
-            name: user.name,
-            email: user.email
-        }));
-}
+    // Input validation
+    if (!Array.isArray(users)) {
+        throw new TypeError("Input must be an array");
+    }
 
+    try {
+        return users
+            .filter(user => {
+                // Check if user is an object and has required age property
+                if (!user || typeof user !== 'object') return false;
+                return typeof user.age === 'number' && user.age >= 18;
+            })
+            .map(user => ({
+                name: user.name || 'Unknown',
+                email: user.email || 'No email'
+            }));
+    } catch (error) {
+        console.error("Error processing user data:", error.message);
+        return [];
+    }
+}
