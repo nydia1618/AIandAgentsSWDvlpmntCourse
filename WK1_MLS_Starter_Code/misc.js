@@ -30,9 +30,16 @@ try {
 // Exercise 2: Array Operations
 const mynumberlists = [1, 2, 3, 4, 5];
 
-// Filter even numbers 
+// Filter even numbers, square them, and find the sum
 const evenNumbers = mynumberlists.filter(num => num % 2 === 0);
+const squaredEvenNumbers = evenNumbers.map(num => num * num);
+const sumOfSquaredEvens = squaredEvenNumbers.reduce((acc, curr) => acc + curr, 0);
+
 console.log("Even Numbers:", evenNumbers);
+console.log("Squared Even Numbers:", squaredEvenNumbers);
+console.log("Sum of Squared Even Numbers:", sumOfSquaredEvens);
+
+
 
 // Exercise 3: Function from Signature
 function reverseString(str) {
