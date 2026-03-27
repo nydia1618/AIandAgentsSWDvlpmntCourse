@@ -116,6 +116,7 @@ feed.addEventListener("click", event => {
   setUserActions(userActions);
   saveLikes();
   applyFilterAndSort();
+  // TODO: Implement like button click handler
 });
 
 function applySorting(list, sortBy) {
