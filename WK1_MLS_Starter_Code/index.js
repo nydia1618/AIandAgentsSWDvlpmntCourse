@@ -1,7 +1,7 @@
 const posts = [
   {
     id: 1,
-    author: "Annanya Gupta",
+    author: "Ananya Gupta",
     role: "Engineer",
     content: "Refactored a legacy component today. Small wins matter.",
     likes: 18,
@@ -67,7 +67,7 @@ function renderFeed(list) {
   feed.innerHTML = "";
 
   list.forEach(post => {
-    const liked = userActions[post.id]?.liked;
+    const liked = !!userActions[post.id]?.liked;
 
     const div = document.createElement("div");
     div.className = "post";
@@ -95,7 +95,27 @@ function renderFeed(list) {
 
 // Like button logic
 feed.addEventListener("click", event => {
-  // TODO: Implement like button click handler
+  const button = event.target.closest("button[data-id]");
+  if (!button) return;
+
+  const postId = parseInt(button.getAttribute("data-id"));
+  const post = posts.find(p => p.id === postId);
+  if (!post) return;
+
+  const userActions = getUserActions();
+  const isLiked = !!userActions[postId]?.liked;
+
+  if (isLiked) {
+    post.likes--;
+    userActions[postId] = { ...userActions[postId], liked: false };
+  } else {
+    post.likes++;
+    userActions[postId] = { ...userActions[postId], liked: true };
+  }
+
+  setUserActions(userActions);
+  saveLikes();
+  applyFilterAndSort();
 });
 
 function applySorting(list, sortBy) {
